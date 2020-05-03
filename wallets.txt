@@ -1,0 +1,18 @@
+Table: public.wallets
+
+-- DROP TABLE public.wallets;
+
+CREATE TABLE public.wallets
+(
+    wallet_id integer NOT NULL DEFAULT nextval('wallets_wallet_id_seq'::regclass),
+    receiver_name text COLLATE pg_catalog."default" NOT NULL,
+    currency text COLLATE pg_catalog."default" NOT NULL,
+    ledger_location text COLLATE pg_catalog."default" NOT NULL,
+    when_created timestamp without time zone NOT NULL,
+    CONSTRAINT wallets_pkey PRIMARY KEY (wallet_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.wallets
+    OWNER to postgres;

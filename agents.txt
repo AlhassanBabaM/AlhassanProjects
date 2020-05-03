@@ -1,0 +1,25 @@
+ Table: public.agents
+
+-- DROP TABLE public.agents;
+
+CREATE TABLE public.agents
+(
+    agent_id integer NOT NULL DEFAULT nextval('agents_agent_id_seq'::regclass),
+    name text COLLATE pg_catalog."default",
+    age integer NOT NULL,
+    address character varying(55) COLLATE pg_catalog."default",
+    email text COLLATE pg_catalog."default" NOT NULL,
+    mobile text COLLATE pg_catalog."default" NOT NULL,
+    country text COLLATE pg_catalog."default" NOT NULL,
+    region text COLLATE pg_catalog."default",
+    city text COLLATE pg_catalog."default",
+    subcity text COLLATE pg_catalog."default",
+    slary real,
+    when_created timestamp without time zone NOT NULL,
+    CONSTRAINT agents_pkey PRIMARY KEY (agent_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.agents
+    OWNER to postgres;

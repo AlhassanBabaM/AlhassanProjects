@@ -1,0 +1,19 @@
+- Table: public.agent_transactions
+
+-- DROP TABLE public.agent_transactions;
+
+CREATE TABLE public.agent_transactions
+(
+    atx_id integer NOT NULL DEFAULT nextval('agent_transactions_atx_id_seq'::regclass),
+    agent_id integer NOT NULL DEFAULT nextval('agent_transactions_agent_id_seq'::regclass),
+    u_id integer NOT NULL,
+    amount numeric NOT NULL,
+    fee_amount_scalar numeric NOT NULL,
+    when_created timestamp without time zone NOT NULL,
+    CONSTRAINT agent_transactions_pkey PRIMARY KEY (atx_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.agent_transactions
+    OWNER to postgres;

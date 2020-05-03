@@ -1,0 +1,25 @@
+ Table: public.transfers
+
+-- DROP TABLE public.transfers;
+
+CREATE TABLE public.transfers
+(
+    transfer_id integer NOT NULL,
+    u_id integer NOT NULL,
+    source_wallet_id integer NOT NULL,
+    dest_wallet_id integer NOT NULL,
+    send_amount_currency text COLLATE pg_catalog."default" NOT NULL,
+    send_amount_scalar numeric NOT NULL,
+    receive_amount_currency text COLLATE pg_catalog."default" NOT NULL,
+    receive_amount_scalar numeric NOT NULL,
+    kind text COLLATE pg_catalog."default" NOT NULL,
+    dest_mobile text COLLATE pg_catalog."default",
+    dest_merchant_id integer,
+    when_created timestamp without time zone NOT NULL,
+    CONSTRAINT transfers_pkey PRIMARY KEY (transfer_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.transfers
+    OWNER to postgres;

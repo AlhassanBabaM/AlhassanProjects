@@ -1,0 +1,21 @@
+ Table: public.userss
+
+-- DROP TABLE public.userss;
+
+CREATE TABLE public.userss
+(
+    u_id integer NOT NULL,
+    name text COLLATE pg_catalog."default" NOT NULL,
+    age text COLLATE pg_catalog."default" NOT NULL,
+    address character varying(55) COLLATE pg_catalog."default",
+    mobile text COLLATE pg_catalog."default" NOT NULL,
+    email text COLLATE pg_catalog."default" NOT NULL,
+    wallet_id integer NOT NULL,
+    when_created timestamp without time zone NOT NULL,
+    CONSTRAINT userss_pkey PRIMARY KEY (u_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.userss
+    OWNER to postgres;
