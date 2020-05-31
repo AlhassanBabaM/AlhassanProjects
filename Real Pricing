@@ -1,0 +1,292 @@
+Pricing - Example with Demodata by sklearnClass Notes 
+The Boston Housing Dataset consists of price of houses in various places in Boston. Alongside with price, the dataset also provide information such as Crime (CRIM), areas of non-retail business in the town (INDUS), the age of people who own the house (AGE), and there are many other attributes that available here. 
+
+ 
+
+The dataset itself is available here. However, because we are going to use scikit-learn, we can import it right away from the sk-learn itself. In this story, we will use several python libraries as required here. 
+
+ 
+
+       
+
+ %matplotlib inline  
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+import numpy as np 
+
+ 
+
+import pandas as pd 
+
+ 
+
+import scipy.stats as stats 
+
+ 
+
+import matplotlib.pyplot as plt 
+
+ 
+
+import sklearn 
+
+ 
+
+import statsmodels.api as sm 
+
+ 
+
+ 
+
+ 
+
+import seaborn as sns 
+
+ 
+
+sns.set_style("whitegrid") 
+
+ 
+
+sns.set_context("poster") 
+
+ 
+
+ 
+
+ 
+
+# special matplotlib argument for improved plots 
+
+ 
+
+from matplotlib import rcParams 
+
+ 
+
+ 
+
+Exploratory Data Analysis 
+
+First of all, I am going to import the Boston Housing dataset and store it in a variable called boston. To import it from sk-learn we will need to run this snippet. 
+
+ 
+
+from sklearn.datasets import load_boston 
+
+ 
+
+boston = load_boston() 
+
+ 
+
+The boston variable itself is a dictionary, so we can check for its keys using the snippet below. 
+
+ 
+
+print(boston.keys()) 
+
+ 
+
+It will return statement look like this. 
+
+ 
+
+ 
+
+Now let’s explore them. 
+
+ 
+
+So first of all, we can easily check for its shape by calling the boston.data.shape and it will return the size of the dataset with the column size. 
+
+                                              (506, 13) 
+
+Shape of Boston dataset 
+
+As we can see it return (506, 13), that means there are 506 rows of data with 13 columns. Now we want to know what are the 13 columns. We can simply run this snippet of code and it will return the feature names. 
+
+ 
+
+print(boston.feature_names) 
+
+ 
+
+.. _boston_dataset: 
+
+Boston house prices dataset 
+
+--------------------------- 
+
+**Data Set Characteristics:** 
+
+:Number of Instances: 506 
+
+:Number of Attributes: 13 numeric/categorical predictive. Median Value 
+
+(attribute 14) is usually the target. 
+
+:Attribute Information (in order): 
+
+- CRIM per capita crime rate by town 
+
+- ZN proportion of residential land zoned for lots over 25,000 
+
+sq.ft. 
+
+- INDUS proportion of non-retail business acres per town 
+
+- CHAS Charles River dummy variable (= 1 if tract bounds river; 0 
+
+otherwise) 
+
+- NOX nitric oxides concentration (parts per 10 million) 
+
+- RM average number of rooms per dwelling 
+
+- AGE proportion of owner-occupied units built prior to 1940 
+
+- DIS weighted distances to five Boston employment centres 
+
+- RAD index of accessibility to radial highways 
+
+- TAX full-value property-tax rate per $10,000 
+
+- PTRATIO pupil-teacher ratio by town 
+
+- B 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by 
+
+town 
+
+- LSTAT % lower status of the population 
+
+- MEDV Median value of owner-occupied homes in $1000's 
+
+:Missing Attribute Values: None 
+
+:Creator: Harrison, D. and Rubinfeld, D.L. 
+
+This is a copy of UCI ML housing dataset. 
+
+Now let’s convert it into pandas! It’s simple, just call the pd.DataFrame() method and pass the boston.data. And we can check the first 5 data with bos.head(). 
+
+ 
+
+                  bos = pd.DataFrame(boston.data) 
+
+ 
+
+                  print(bos.head()) 
+
+ 
+
+Does anyone realize that there is no column called ‘PRICE’ in the data frame? Yes, it is because the target column it’s available in other attribute called target. So let’s check the shape of the boston.target. 
+
+ 
+
+print(boston.target.shape) 
+
+ 
+
+So, it turns out that it match the number of rows in the dataset. Let’s add it to the DataFrame. 
+
+ 
+
+ 
+
+bos['PRICE'] = boston.target 
+
+ 
+
+print(bos.head()) 
+
+ 
+
+Split train-test dataset 
+
+Unlike titanic dataset, this time we only given a single dataset. No train and test dataset. That’s fine, we can split it by our self. 
+
+Basically, before splitting the data to train-test dataset, we would need to split the dataset into two: target value and predictor values. Let’s call the target value Y and predictor values X. 
+
+Thus, 
+
+Y = Boston Housing Price 
+
+X = All other features 
+
+ 
+
+X = bos.drop('PRICE', axis = 1) 
+
+ 
+
+Y = bos['PRICE'] 
+
+ 
+
+ 
+
+Now, we can finally split the dataset into train and test with the snippet below. 
+
+ 
+
+ 
+
+X_train, X_test, Y_train, Y_test =      sklearn.cross_validation.train_test_split(X, Y, test_size = 0.33, random_state = 5) 
+
+print(X_train.shape) 
+
+print(X_test.shape) 
+
+print(Y_train.shape) 
+
+print(Y_test.shape) 
+
+ 
+
+If we also check the shape of each variable, we can find that now we already got ourselves our train and test datasets with the proportion of 66.66% for train data and 33.33% for test data. 
+
+ 
+
+Linear Regression 
+
+We finally going to run a linear regression. 
+
+ 
+
+from sklearn.linear_model import LinearRegression 
+ 
+lm = LinearRegression() 
+lm.fit(X_train, Y_train) 
+ 
+Y_pred = lm.predict(X_test) 
+ 
+plt.scatter(Y_test, Y_pred) 
+plt.xlabel("Prices: $Y_i$") 
+plt.ylabel("Predicted prices: $\hat{Y}_i$") 
+plt.title("Prices vs Predicted prices: $Y_i$ vs $\hat{Y}_i$") 
+
+ 
+
+The above snippet will fit amodel based on X_train and Y_train. Now we already got the linear model, we try to predict it to the X_test and now we got the prediction values which stored into Y_pred. To visualize the differences between actual prices and predicted values we also create a scatter plot. 
+
+ 
+
+ 
+
+Ideally, the scatter plot should create a linear line. Since the model does not fit 100%, the scatter plot is not creating a linear line. 
+
+Mean Squared Error 
+
+To check the level of error of a model, we can Mean Squared Error. It is one of the procedure to measures the average of the squares of error. Basically, it will check the difference between actual value and the predicted value. For the full theory, you can always search it online. To use it, we can use the mean squared error function of scikit-learn by running this snippet of code. 
+
+
